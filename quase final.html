@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Para Sempre Nós ❤</title>
+<meta name="description" content="Um cantinho só nosso, com nossa história de amor.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9D%A4%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ====================================================
+   TOKENS — paleta, tipografia, espaçamento
+   ==================================================== */
+:root{
+  --cream:#FBF3EC;
+  --cream-dark:#F1E2D3;
+  --wine-deepest:#3A0F1C;
+  --wine-deep:#4A1322;
+  --wine:#6B1F33;
+  --wine-light:#8C2F45;
+  --rose:#E8A8B8;
+  --gold:#C9A24B;
+  --gold-light:#E8D5A8;
+  --gold-soft:rgba(201,162,75,.35);
+  --ink:#3A1F26;
+  --ink-soft:rgba(58,31,38,.68);
+  --paper-ink:#4A2A33;
+  --font-display:'Cormorant Garamond', serif;
+  --font-body:'Jost', sans-serif;
+  --font-script:'Dancing Script', cursive;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-body);
+  background:var(--cream);
+  color:var(--ink);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+section{position:relative;padding:clamp(64px,10vw,120px) 20px;}
+.section-inner{max-width:1080px;margin:0 auto;position:relative;z-index:2;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.1;}
+::selection{background:var(--gold-soft);color:var(--wine-deepest);}
+
+/* respeita usuários que preferem menos movimento */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+}
+
+/* ====================================================
+   FUNDO 3D (Three.js) — fixo, atrás do conteúdo
+   ==================================================== */
+#bg-canvas{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:1;pointer-events:none;
+  mix-blend-mode:screen;
+}
+
+/* ====================================================
+   REVEAL AO ROLAR
+   ==================================================== */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease), transform .9s var(--ease);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1.visible{transition-delay:.12s;}
+.reveal-delay-2.visible{transition-delay:.24s;}
+.reveal-delay-3.visible{transition-delay:.36s;}
+
+/* ====================================================
+   DIVISOR DECORATIVO
+   ==================================================== */
+.divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto;width:100%;max-width:320px;opacity:.7;}
+.divider svg{flex-shrink:0;}
+.divider .line{flex:1;height:1px;background:linear-gradient(90deg, transparent, currentColor, transparent);}
+
+/* ====================================================
+   GLOW SUTIL — indica elementos com segredo
+   ==================================================== */
+.egg-glow{animation:eggPulse 3.4s ease-in-out infinite;}
+@keyframes eggPulse{
+  0%,100%{filter:drop-shadow(0 0 0px var(--gold-soft));transform:scale(1);}
+  50%{filter:drop-shadow(0 0 9px var(--gold-soft));transform:scale(1.06);}
+}
+
+/* ====================================================
+   DICA DISCRETA SOBRE OS SEGREDOS
+   ==================================================== */
+.secret-hint{
+  font-family:var(--font-display);font-style:italic;font-weight:500;
+  font-size:.82rem;color:var(--rose);opacity:.62;letter-spacing:.01em;
+  margin-top:26px;max-width:300px;line-height:1.5;
+}
+
+/* ====================================================
+   HERO
+   ==================================================== */
+.hero{
+  min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;color:var(--cream);
+  background:
+    radial-gradient(circle at 25% 18%, rgba(201,162,75,.22), transparent 45%),
+    radial-gradient(circle at 80% 75%, rgba(201,162,75,.12), transparent 50%),
+    linear-gradient(165deg, var(--wine-deepest), var(--wine-deep) 55%, var(--wine) 100%);
+  padding:20px;
+}
+.hero-inner{display:flex;flex-direction:column;align-items:center;width:100%;will-change:transform;}
+.hero-eyebrow{
+  font-family:var(--font-body);font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold-light);opacity:.85;margin-bottom:18px;
+}
+.hero-names{
+  font-family:var(--font-script);
+  font-size:clamp(2.6rem, 9vw, 5.4rem);
+  color:var(--cream);
+  line-height:1.15;
+  text-shadow:0 2px 24px rgba(0,0,0,.25);
+}
+.hero-amp{color:var(--gold);padding:0 .15em;}
+.hero-sub{
+  font-family:var(--font-display);font-style:italic;font-weight:500;
+  font-size:clamp(1.05rem,2.4vw,1.4rem);
+  color:var(--rose);
+  margin-top:18px;max-width:520px;
+}
+.hero-since{
+  margin-top:34px;display:inline-flex;align-items:center;gap:10px;
+  font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light);
+  border-top:1px solid var(--gold-soft);border-bottom:1px solid var(--gold-soft);
+  padding:10px 0;
+}
+.hero-since b{font-family:var(--font-display);font-style:italic;font-weight:600;font-size:1rem;color:var(--cream);text-transform:none;letter-spacing:0;}
+.hero-egg{
+  position:relative;margin-top:36px;width:34px;height:34px;color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+}
+.scroll-cue{
+  position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--gold-light);opacity:.75;
+}
+.scroll-cue span{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;}
+.scroll-cue .arrow{width:14px;height:14px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);animation:bounceArrow 1.8s ease-in-out infinite;}
+@keyframes bounceArrow{0%,100%{transform:rotate(45deg) translate(0,0);}50%{transform:rotate(45deg) translate(4px,4px);}}
+
+/* ====================================================
+   CONTADOR
+   ==================================================== */
+.counter-section{background:var(--cream);text-align:center;}
+.section-eyebrow{
+  font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--wine-light);margin-bottom:10px;
+}
+.section-title{font-size:clamp(1.9rem,4.6vw,2.7rem);color:var(--wine-deep);font-style:italic;}
+.section-sub{font-family:var(--font-body);font-weight:300;color:var(--ink-soft);max-width:480px;margin:14px auto 0;font-size:.98rem;}
+.counter-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  max-width:680px;margin:48px auto 0;
+}
+@media(min-width:640px){.counter-grid{grid-template-columns:repeat(6,1fr);gap:10px;}}
+.counter-box{
+  background:var(--cream-dark);border-radius:16px;padding:18px 6px;
+  border:1px solid var(--gold-soft);
+}
+.counter-num{
+  font-family:var(--font-display);font-weight:600;color:var(--wine-deep);
+  font-size:clamp(1.7rem,5vw,2.5rem);font-variant-numeric:tabular-nums;
+  transition:transform .25s var(--ease);
+}
+.counter-num.pulse{transform:scale(1.12);color:var(--gold);}
+.counter-label{margin-top:4px;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);}
+.counter-egg{margin-top:30px;display:inline-flex;}
+
+/* ====================================================
+   QUOTE / FRASE ROMÂNTICA (typewriter)
+   ==================================================== */
+.quote-section{text-align:center;color:var(--cream);
+  background:linear-gradient(165deg, var(--wine-deep), var(--wine) 100%);
+}
+.quote-section.light{color:var(--wine-deep);background:var(--cream-dark);}
+.quote-mark{font-family:var(--font-display);font-size:3.4rem;color:var(--gold);line-height:.4;display:block;margin-bottom:18px;opacity:.85;}
+.quote-text{
+  font-family:var(--font-display);font-style:italic;font-weight:500;
+  font-size:clamp(1.35rem,3.6vw,2.1rem);max-width:680px;margin:0 auto;min-height:2.4em;
+  line-height:1.5;
+}
+.quote-text .cursor{display:inline-block;width:2px;background:currentColor;margin-left:2px;animation:blink 1s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+/* ====================================================
+   LINHA DO TEMPO
+   ==================================================== */
+.timeline-section{background:var(--cream);}
+.timeline{position:relative;max-width:760px;margin:60px auto 0;}
+.timeline-thread{
+  position:absolute;left:24px;top:0;bottom:0;width:2px;
+  background:linear-gradient(var(--gold-soft), var(--gold) 8%, var(--gold) 92%, var(--gold-soft));
+}
+@media(min-width:760px){.timeline-thread{left:50%;transform:translateX(-50%);}}
+.t-item{position:relative;padding-left:64px;margin-bottom:54px;}
+.t-item:last-child{margin-bottom:0;}
+@media(min-width:760px){
+  .t-item{width:50%;padding-left:0;padding-right:54px;text-align:right;}
+  .t-item:nth-child(even){margin-left:50%;padding-right:0;padding-left:54px;text-align:left;}
+}
+.t-marker{
+  position:absolute;left:24px;top:2px;transform:translateX(-50%);
+  width:42px;height:42px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold) 65%, #a9822f 100%);
+  display:flex;align-items:center;justify-content:center;color:var(--wine-deepest);
+  box-shadow:0 3px 10px rgba(74,19,34,.25);z-index:2;
+}
+@media(min-width:760px){.t-marker{left:auto;right:-21px;transform:none;}
+  .t-item:nth-child(even) .t-marker{right:auto;left:-21px;}}
+.t-marker svg{width:17px;height:17px;}
+.t-card{background:var(--cream-dark);border:1px solid var(--gold-soft);border-radius:14px;padding:18px 20px;display:inline-block;text-align:left;}
+.t-date{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--wine-light);font-weight:500;}
+.t-title{font-family:var(--font-display);font-size:1.3rem;color:var(--wine-deep);font-style:italic;margin:5px 0 6px;}
+.t-text{font-size:.88rem;font-weight:300;color:var(--ink-soft);line-height:1.55;}
+
+/* ====================================================
+   GALERIA — pilha de polaroides com rolagem
+   ==================================================== */
+.gallery-section{
+  background:linear-gradient(165deg, var(--wine-deepest), var(--wine-deep) 100%);
+  color:var(--cream);text-align:center;padding-bottom:0;
+}
+.gallery-section .section-title{color:var(--cream);}
+.gallery-section .section-sub{color:var(--rose);}
+
+.stack-wrapper{position:relative;width:100%;}
+.stack-sticky{
+  position:sticky;top:0;height:100svh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:visible;
+}
+.polaroid{
+  background:#fdfaf6;padding:10px 10px 0;border-radius:3px;
+  box-shadow:0 14px 32px rgba(0,0,0,.4);
+}
+.polaroid .frame{aspect-ratio:1/1;overflow:hidden;background:#ddd;}
+.polaroid img{width:100%;height:100%;object-fit:cover;}
+.polaroid figcaption{
+  font-family:var(--font-script);font-size:1.05rem;color:var(--ink);
+  padding:10px 4px 14px;text-align:center;
+}
+.stack-card{
+  position:absolute;left:50%;top:50%;
+  width:min(72vw, 320px);
+  will-change:transform, opacity;
+  transition:box-shadow .32s cubic-bezier(.22,.61,.36,1);
+  cursor:pointer;
+}
+.stack-card.is-hovered{box-shadow:0 22px 46px rgba(0,0,0,.45);}
+.photo-egg{
+  position:absolute;top:-10px;right:-10px;width:30px;height:30px;border-radius:50%;
+  background:var(--wine-deep);color:var(--gold-light);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.3);z-index:6;
+}
+.photo-egg svg{width:14px;height:14px;}
+.stack-hint{
+  position:absolute;bottom:7%;left:50%;transform:translateX(-50%);
+  font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);
+  opacity:.65;text-align:center;white-space:nowrap;z-index:5;pointer-events:none;
+}
+@media(max-width:480px){.stack-hint{white-space:normal;max-width:80vw;font-size:.62rem;}}
+
+/* ====================================================
+   FOOTER / CARTA FINAL
+   ==================================================== */
+.footer{
+  background:linear-gradient(180deg, var(--wine-deep), var(--wine-deepest) 100%);
+  color:var(--cream);text-align:center;padding-bottom:80px;padding-top:90px;
+}
+.footer .quote-mark{margin-bottom:8px;}
+.footer-letter{font-family:var(--font-display);font-style:italic;font-size:clamp(1.1rem,2.6vw,1.4rem);max-width:560px;margin:0 auto;line-height:1.6;color:var(--cream);}
+.footer-sign{font-family:var(--font-script);font-size:2.2rem;color:var(--gold);margin-top:22px;}
+.footer-date{margin-top:6px;font-size:.78rem;letter-spacing:.1em;color:var(--rose);text-transform:uppercase;}
+
+.heart-btn-wrap{margin-top:54px;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.heart-btn{
+  position:relative;width:84px;height:84px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%, var(--gold-light), var(--gold) 60%, #a9822f 100%);
+  color:var(--wine-deepest);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+.heart-btn svg{width:34px;height:34px;}
+.heart-btn .ring{
+  position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--gold);opacity:0;
+  transform:scale(.85);transition:none;
+}
+.heart-btn.charging .ring{opacity:.8;animation:ringFill var(--hold-ms,800ms) linear forwards;}
+@keyframes ringFill{from{transform:scale(.85);opacity:.9;}to{transform:scale(1.3);opacity:0;}}
+.heart-btn-label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);opacity:.8;}
+
+/* ====================================================
+   NOTA SECRETA (toast)
+   ==================================================== */
+.secret-note{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(140%);
+  width:min(92vw,380px);background:var(--cream);color:var(--paper-ink);
+  border-radius:14px;padding:20px 22px;box-shadow:0 14px 40px rgba(0,0,0,.4);
+  border:1px solid var(--gold-soft);
+  z-index:100;transition:transform .55s var(--ease);
+}
+.secret-note.show{transform:translateX(-50%) translateY(0);}
+.secret-note-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;color:var(--wine-light);}
+.secret-note-head svg{width:15px;height:15px;}
+.secret-note-head span{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;}
+.secret-note p{font-family:var(--font-display);font-style:italic;font-size:1.12rem;line-height:1.5;}
+.secret-note-close{position:absolute;top:10px;right:14px;font-size:1.1rem;color:var(--ink-soft);line-height:1;}
+
+/* surpresa final no scroll */
+.scroll-secret{
+  text-align:center;margin-top:60px;opacity:0;transform:translateY(16px);
+  transition:opacity 1.1s var(--ease), transform 1.1s var(--ease);
+  font-family:var(--font-display);font-style:italic;color:var(--gold-light);font-size:1.05rem;
+}
+.scroll-secret.visible{opacity:1;transform:translateY(0);}
+
+/* confete coraçõezinhos */
+.confetti-heart{position:fixed;pointer-events:none;z-index:200;color:var(--gold);will-change:transform,opacity;}
+
+/* foco visível para acessibilidade */
+.egg:focus-visible, .heart-btn:focus-visible, .stack-card:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<!-- fundo 3D (Three.js) -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero" id="hero">
+  <div class="hero-inner" id="hero-inner">
+    <p class="hero-eyebrow reveal visible">uma lembrança da nossa pequena eternidade</p>
+    <h1 class="hero-names reveal visible" id="hero-names">Nome <span class="hero-amp">&amp;</span> Nome</h1>
+    <p class="hero-sub reveal visible reveal-delay-1" id="hero-sub">Desde então, cada dia ao seu lado é um presente que eu escolho abrir de novo.</p>
+    <div class="hero-since reveal visible reveal-delay-2">
+      <!-- oficial -->
+      juntos desde&nbsp;<b id="hero-date">--</b>
+    </div>
+
+    <p class="secret-hint reveal visible reveal-delay-3">psst&hellip; tem recadinhos escondidos espalhados por essa página. procure com carinho 💌</p>
+
+    <button class="hero-egg egg egg-glow reveal visible reveal-delay-3" data-msg="0" aria-label="Segredinho">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </button>
+  </div>
+
+  <div class="scroll-cue"><span>role</span><div class="arrow"></div></div>
+</header>
+
+<!-- ============================================================
+     CONTADOR
+     ============================================================ -->
+<section class="counter-section" id="contador">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">há quanto tempo</p>
+    <h2 class="section-title reveal">somos nós dois</h2>
+    <div class="counter-grid reveal reveal-delay-1">
+      <div class="counter-box"><div class="counter-num" id="c-anos">0</div><div class="counter-label">anos</div></div>
+      <div class="counter-box"><div class="counter-num" id="c-meses">0</div><div class="counter-label">meses</div></div>
+      <div class="counter-box"><div class="counter-num" id="c-dias">0</div><div class="counter-label">dias</div></div>
+      <div class="counter-box"><div class="counter-num" id="c-horas">0</div><div class="counter-label">horas</div></div>
+      <div class="counter-box"><div class="counter-num" id="c-min">0</div><div class="counter-label">minutos</div></div>
+      <div class="counter-box"><div class="counter-num" id="c-seg">0</div><div class="counter-label">segundos</div></div>
+    </div>
+    <div class="counter-egg reveal reveal-delay-2">
+      <button class="egg egg-glow" data-msg="1" aria-label="Segredinho" style="color:var(--wine-light)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FRASE 1
+     ============================================================ -->
+<section class="quote-section" id="frase-1">
+  <div class="section-inner">
+    <span class="quote-mark reveal">&ldquo;</span>
+    <p class="quote-text reveal" data-typewriter data-quote-index="0"></p>
+  </div>
+</section>
+
+<!-- ============================================================
+     LINHA DO TEMPO
+     ============================================================ -->
+<section class="timeline-section" id="historia">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal" style="text-align:center"> um pouquinho da nossa história</p>
+    <h2 class="section-title reveal" style="text-align:center">marcos do nosso caminho</h2>
+    <div class="timeline" id="timeline-container">
+      <div class="timeline-thread" aria-hidden="true"></div>
+      <!-- itens gerados via JS a partir de CONFIG.timeline -->
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GALERIA — pilha de polaroides
+     ============================================================ -->
+<section class="gallery-section" id="galeria">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal" style="color:var(--gold-light)">alguns de nossos momentos</p>
+    <h2 class="section-title reveal">um álbum de nós</h2>
+  </div>
+  <div class="stack-wrapper" id="stack-wrapper">
+    <div class="stack-sticky" id="stack-sticky">
+      <!-- cartões gerados via JS a partir de CONFIG.photos -->
+      <p class="stack-hint">role para empilhar as fotos · toque ou passe o mouse pra destacar qualquer uma</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FRASE 2
+     ============================================================ -->
+<section class="quote-section light" id="frase-2">
+  <div class="section-inner">
+    <span class="quote-mark" style="color:var(--wine-light)">&ldquo;</span>
+    <p class="quote-text reveal" data-typewriter data-quote-index="1"></p>
+  </div>
+</section>
+
+<!-- ============================================================
+     CARTA FINAL / FOOTER
+     ============================================================ -->
+<footer class="footer" id="carta-final">
+  <div class="section-inner">
+    <span class="quote-mark reveal">&ldquo;</span>
+    <p class="footer-letter reveal" id="footer-letter">
+      Se um dia você duvidar do tamanho do que eu sinto, volte nesta página, role até aqui de novo,
+      e lembre: cada segundo daquele contador ali em cima é um segundo em que eu escolhi você.
+    </p>
+    <p class="footer-sign reveal reveal-delay-1" id="footer-sign">com todo o meu amor</p>
+    <p class="footer-date reveal reveal-delay-2" id="footer-date-label">--</p>
+
+    <div class="heart-btn-wrap reveal reveal-delay-3">
+      <button class="heart-btn egg-glow" id="long-press-heart" aria-label="Segure pressionado">
+        <span class="ring" aria-hidden="true"></span>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </button>
+      <span class="heart-btn-label">segure pressionado</span>
+    </div>
+
+    <p class="scroll-secret" id="scroll-secret">você chegou até o fim rolando a página inteira — isso é exatamente do tamanho da paciência que eu tenho com você. eu te amo. 💛</p>
+  </div>
+</footer>
+
+<!-- nota secreta (toast) -->
+<div class="secret-note" id="secret-note" role="status" aria-live="polite">
+  <button class="secret-note-close" id="secret-note-close" aria-label="Fechar">&times;</button>
+  <div class="secret-note-head">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <span>um segredinho pra você</span>
+  </div>
+  <p id="secret-note-text">...</p>
+</div>
+
+<!-- Three.js (CDN) — usado apenas para o fundo decorativo 3D.
+     Se não carregar (sem internet, bloqueio de rede etc.) o site
+     continua funcionando 100% normalmente, só sem esse efeito extra. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+const CONFIG = {
+
+  // Nomes do casal, como devem aparecer no topo
+  names: { a: "Celine", b: "Victor" },
+
+  // Data e hora em que o namoro começou — formato AAAA-MM-DDTHH:MM:SS
+  // (se não souber a hora exata, deixe 00:00:00)
+  startDate: "2025-01-05T00:00:00",
+
+  // Frase logo abaixo dos nomes, na abertura do site
+  heroSubtitle: "Desde então, cada dia ao seu lado é um presente que eu escolho abrir de novo.",
+
+  // Texto da carta final, lá no rodapé
+  footerLetter: "Se um dia você duvidar do quanto eu te amo, volta aqui nesse site, role até aqui embaixo, e lembre: cada segundo daquele contador ali em cima é um segundo em que eu escolhi você, mais uma vez.",
+  footerSignature: "com todo o meu amor",
+
+  // Mensagem que aparece automaticamente quando a pessoa rola até o fim da página
+  scrollSecret: "você chegou até o fim da página — esso é o tamanho da paciência que eu tenho com você kkkkkk. eu te amo. 💛",
+
+  // Duas frases que aparecem com efeito de máquina de escrever
+  quotes: [
+    "Prefiro dividir uma única vida com você a enfrentar todas as eras deste mundo sozinho",
+    "Entre todos os lugares do mundo, meu favorito ainda é dentro do seu abraço."
+  ],
+
+  // Linha do tempo — adicione, remova ou edite quantos marcos quiser
+  timeline: [
+    { date: "05 de Janeiro de 2025", title: "Onde tudo começou", text: "O dia em que decidimos parar de fingir que era só amizade 👀." },
+    { date: "13 de Junho de 2025", title: "Primeiro congresso namorandinho", text: "o primeiro de muitos congressos ao seu lado (em breve casadinhos)." },
+    { date: "21 de novembro de 2025", title: "Primeira viagem juntos", text: "Descobrimos que viajar juntos é o jeito mais bonito de se perder. (muito gpt kasdokasdko)" },
+    { date: "05 de Janeiro de 2026", title: "Um ano de nós", text: "E olha a gente aqui, escolhendo um ao outro de novo 🫂." },
+    { date: "todos os dias", title: "Cada dia que passa é um motivo pra gente lembrar de como é bom estar ao seu lado, as risadas, as bobagens, as brincadeiras, tudo tem sido extremamente perfeito com você!", text: "" }
+  ],
+
+  // Fotos da galeria — troque "src" pelo caminho da sua foto (ex: "fotos/foto1.jpg")
+  // e "caption" pela legenda. As imagens abaixo são só placeholders.
+  // A ORDEM da lista é a ordem em que as fotos aparecem na pilha ao rolar.
+  photos: [
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/5.JPG", caption: "aquele dia" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/8.JPG", caption: "viagem" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/9.JPEG", caption: "risadas" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/7.png", caption: "no bar" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/show.jpeg", caption: "Linkin Park" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/1.jpg", caption: "no mato" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/10.JPEG", caption: "no congresso" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/6.png", caption: "na cachu" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/5.png", caption: "no carrinho" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/2.jpg", caption: "feitos um para o outro" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/3.JPEG", caption: "no parque" },
+    { src: "https://szjvjbdoittaetdzctfh.supabase.co/storage/v1/object/public/fotos-site/4.JPG", caption: "no frevo dnv" },
+  ],
+
+  // Mensagens escondidas (easter eggs). São reveladas ao clicar nos
+  // coraçõezinhos espalhados pela página e nos marcadores da linha do tempo.
+  // Pode ter quantas quiser — elas vão se repetindo em ciclo se acabarem.
+  hiddenMessages: [
+    "Você é o meu lugar favorito no mundo inteiro.",
+    "Ainda sorrio sozinho(a) quando lembro de mensagens suas.",
+    "Escondi isso aqui só pra ver se você acharia. Achou. Te amo pra sempre amor meu da minha vida.",
+    "Se tamanho de abraço fosse medido, o seu seria o único que cabe certinho em mim.",
+    "Tem mais segredinhos espalhados por essa página. Bom garimpo.",
+    "Minha parte favorita do dia é sempre a que tem você nela gata.",
+    "Esse coraçãozinho aqui é só uma desculpa pra dizer: eu te amo."
+  ],
+
+  // Som de digitação (ms por caractere) — diminua para escrever mais rápido
+  typewriterSpeed: 38,
+
+  // Quantos "vh" de rolagem cada foto da galeria ocupa antes de passar pra
+  // próxima. Diminua para uma galeria mais rápida de rolar, aumente para
+  // dar mais tempo de apreciar cada foto.
+  galleryStepVH: 140
+};
+/* ============================================================
+   ===============  FIM DA ÁREA DE EDIÇÃO  =====================
+   A partir daqui é só lógica — não precisa mexer para
+   personalizar o site, mas fique à vontade se quiser :)
+   ============================================================ */
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- helpers ---------- */
+const heartPath = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
+function heartSVG(size){ return `<svg viewBox="0 0 24 24" fill="currentColor" width="${size}" height="${size}"><path d="${heartPath}"/></svg>`; }
+function fmtDate(d){
+  return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+}
+
+/* ---------- preencher textos a partir do CONFIG ---------- */
+document.getElementById('hero-names').innerHTML = `${CONFIG.names.a} <span class="hero-amp">&amp;</span> ${CONFIG.names.b}`;
+document.getElementById('hero-sub').textContent = CONFIG.heroSubtitle;
+document.getElementById('footer-letter').textContent = CONFIG.footerLetter;
+document.getElementById('footer-sign').textContent = CONFIG.footerSignature;
+document.getElementById('scroll-secret').textContent = CONFIG.scrollSecret;
+
+const startDateObj = new Date(CONFIG.startDate);
+document.getElementById('hero-date').textContent = fmtDate(startDateObj);
+document.getElementById('footer-date-label').textContent = 'desde ' + fmtDate(startDateObj);
+
+/* ---------- contador ao vivo ---------- */
+function getTimeDiff(start, now){
+  let years = now.getFullYear() - start.getFullYear();
+  let months = now.getMonth() - start.getMonth();
+  let days = now.getDate() - start.getDate();
+  let hours = now.getHours() - start.getHours();
+  let minutes = now.getMinutes() - start.getMinutes();
+  let seconds = now.getSeconds() - start.getSeconds();
+
+  if (seconds < 0){ seconds += 60; minutes--; }
+  if (minutes < 0){ minutes += 60; hours--; }
+  if (hours < 0){ hours += 24; days--; }
+  if (days < 0){
+    const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+    days += prevMonth.getDate();
+    months--;
+  }
+  if (months < 0){ months += 12; years--; }
+  return { years, months, days, hours, minutes, seconds };
+}
+
+const counterEls = {
+  anos: document.getElementById('c-anos'),
+  meses: document.getElementById('c-meses'),
+  dias: document.getElementById('c-dias'),
+  horas: document.getElementById('c-horas'),
+  min: document.getElementById('c-min'),
+  seg: document.getElementById('c-seg')
+};
+let lastSeg = null;
+function tickCounter(){
+  const diff = getTimeDiff(startDateObj, new Date());
+  counterEls.anos.textContent = diff.years;
+  counterEls.meses.textContent = diff.months;
+  counterEls.dias.textContent = diff.days;
+  counterEls.horas.textContent = String(diff.hours).padStart(2,'0');
+  counterEls.min.textContent = String(diff.minutes).padStart(2,'0');
+  counterEls.seg.textContent = String(diff.seconds).padStart(2,'0');
+  if (diff.seconds !== lastSeg){
+    counterEls.seg.classList.add('pulse');
+    setTimeout(()=>counterEls.seg.classList.remove('pulse'), 240);
+    lastSeg = diff.seconds;
+  }
+}
+tickCounter();
+setInterval(tickCounter, 1000);
+
+/* ---------- renderizar linha do tempo ---------- */
+const timelineContainer = document.getElementById('timeline-container');
+CONFIG.timeline.forEach((item, i) => {
+  const el = document.createElement('div');
+  el.className = 'reveal t-item';
+  el.innerHTML = `
+    <div class="t-marker egg egg-glow" data-msg="${(i + 2) % CONFIG.hiddenMessages.length}" role="button" tabindex="0" aria-label="Segredinho">${heartSVG(16)}</div>
+    <div class="t-card">
+      <div class="t-date">${item.date}</div>
+      <div class="t-title">${item.title}</div>
+      <div class="t-text">${item.text}</div>
+    </div>`;
+  timelineContainer.appendChild(el);
+});
+
+/* ---------- scroll reveal (IntersectionObserver) ---------- */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ---------- efeito máquina de escrever ---------- */
+function typeWriter(el, text, speed){
+  if (prefersReducedMotion){ el.textContent = text; return; }
+  let i = 0;
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  el.textContent = '';
+  el.appendChild(cursor);
+  const interval = setInterval(() => {
+    if (i < text.length){
+      cursor.insertAdjacentText('beforebegin', text[i]);
+      i++;
+    } else {
+      clearInterval(interval);
+      setTimeout(() => cursor.remove(), 1200);
+    }
+  }, speed);
+}
+const typeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      const idx = Number(entry.target.dataset.quoteIndex);
+      const text = CONFIG.quotes[idx] || '';
+      typeWriter(entry.target, text, CONFIG.typewriterSpeed);
+      typeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-typewriter]').forEach(el => typeObserver.observe(el));
+
+/* ---------- surpresa automática ao rolar até o fim ---------- */
+const scrollSecretObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.classList.add('visible');
+      scrollSecretObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.6 });
+scrollSecretObserver.observe(document.getElementById('scroll-secret'));
+
+/* ---------- nota secreta (toast) ---------- */
+const secretNote = document.getElementById('secret-note');
+const secretNoteText = document.getElementById('secret-note-text');
+let secretTimeout;
+function revealSecret(message){
+  secretNoteText.textContent = message;
+  secretNote.classList.add('show');
+  clearTimeout(secretTimeout);
+  secretTimeout = setTimeout(() => secretNote.classList.remove('show'), 6500);
+}
+document.getElementById('secret-note-close').addEventListener('click', () => {
+  secretNote.classList.remove('show');
+  clearTimeout(secretTimeout);
+});
+
+/* delega clique em qualquer elemento .egg da página (criados estaticamente ou via JS) */
+document.addEventListener('click', (e) => {
+  const egg = e.target.closest('.egg');
+  if (!egg) return;
+  e.stopPropagation();
+  const idx = Number(egg.dataset.msg) % CONFIG.hiddenMessages.length;
+  revealSecret(CONFIG.hiddenMessages[idx]);
+  egg.style.transform = 'scale(0.85)';
+  setTimeout(() => { egg.style.transform = ''; }, 180);
+});
+document.addEventListener('keydown', (e) => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('egg')){
+    e.preventDefault();
+    e.target.click();
+  }
+});
+
+/* ---------- segurar pressionado (long-press) ---------- */
+const longPressBtn = document.getElementById('long-press-heart');
+const HOLD_MS = 800;
+let holdTimer = null;
+function startHold(){
+  longPressBtn.style.setProperty('--hold-ms', HOLD_MS + 'ms');
+  longPressBtn.classList.add('charging');
+  holdTimer = setTimeout(() => {
+    longPressBtn.classList.remove('charging');
+    revealSecret(CONFIG.hiddenMessages[CONFIG.hiddenMessages.length - 1]);
+    burstHearts(longPressBtn);
+  }, HOLD_MS);
+}
+function cancelHold(){
+  clearTimeout(holdTimer);
+  longPressBtn.classList.remove('charging');
+}
+longPressBtn.addEventListener('pointerdown', startHold);
+longPressBtn.addEventListener('pointerup', cancelHold);
+longPressBtn.addEventListener('pointerleave', cancelHold);
+longPressBtn.addEventListener('pointercancel', cancelHold);
+longPressBtn.addEventListener('click', (e) => e.stopPropagation());
+
+/* ---------- confete de coraçõezinhos ---------- */
+function burstHearts(originEl){
+  if (prefersReducedMotion) return;
+  const rect = originEl.getBoundingClientRect();
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top + rect.height/2;
+  const count = 16;
+  for (let i=0; i<count; i++){
+    const h = document.createElement('div');
+    h.className = 'confetti-heart';
+    h.innerHTML = heartSVG(12 + Math.random()*10);
+    h.style.left = cx + 'px';
+    h.style.top = cy + 'px';
+    document.body.appendChild(h);
+    const angle = (Math.PI*2) * (i/count) + Math.random()*0.5;
+    const dist = 80 + Math.random()*120;
+    const dx = Math.cos(angle) * dist;
+    const dy = Math.sin(angle) * dist - 60;
+    const rot = (Math.random()*360 - 180);
+    h.animate([
+      { transform:'translate(-50%,-50%) translate(0,0) rotate(0deg)', opacity:1 },
+      { transform:`translate(-50%,-50%) translate(${dx}px, ${dy + 160}px) rotate(${rot}deg)`, opacity:0 }
+    ], { duration: 1100 + Math.random()*500, easing:'cubic-bezier(.22,1,.36,1)' })
+    .onfinish = () => h.remove();
+  }
+}
+
+/* ============================================================
+   GALERIA EM PILHA — a 1ª foto já chega assentada; as demais (N-1)
+   entram uma a uma vindas de baixo da viewport, num ritmo lento e
+   sincronizado ao scroll, acomodando-se na pilha sem cobrir por
+   completo a anterior — cada uma um pouco à frente, deixando ver
+   uma fatia das que já chegaram. Hover (desktop) ou toque (mobile)
+   dá um destaque sutil e só na própria foto (leve elevação, escala
+   ~1.02–1.04x e sombra mais forte) — nada mais na pilha se move.
+   ============================================================ */
+function initGalleryStack(){
+  const wrapper = document.getElementById('stack-wrapper');
+  const sticky = document.getElementById('stack-sticky');
+  const N = CONFIG.photos.length;
+  if (!N) return () => {};
+
+  const stepVH = CONFIG.galleryStepVH || 60;
+  // 1 card já chega pronta (visível assim que a seção aparece);
+  // as demais (N-1) precisam de scroll pra subir e se empilhar.
+  wrapper.style.height = `calc(${Math.max(N - 1, 1)} * ${stepVH}vh + 50vh)`;
+
+  // espaçamento vertical entre cada foto acomodada na pilha —
+  // pequeno o bastante para nunca cobrir a anterior por completo.
+  const SPACING = 20;
+  const baseY = -(SPACING * (N - 1)) / 2; // centraliza a pilha inteira no meio do palco
+
+  const tilts = [-6, 4, -3, 6, -4, 3];
+  const cards = CONFIG.photos.map((photo, i) => {
+    const hasEgg = i % 3 === 1;
+    const card = document.createElement('figure');
+    card.className = 'polaroid stack-card';
+    card.dataset.index = i;
+    card.innerHTML = `
+      ${hasEgg ? `<button class="photo-egg egg egg-glow" data-msg="${(i + 4) % CONFIG.hiddenMessages.length}" aria-label="Segredinho">${heartSVG(13)}</button>` : ''}
+      <div class="frame"><img src="${photo.src}" alt="${photo.caption}" loading="lazy"></div>
+      <figcaption>${photo.caption}</figcaption>`;
+    sticky.appendChild(card);
+    return { el: card, baseTilt: tilts[i % tilts.length], restY: baseY + i * SPACING, hovering: false, hoverProgress: 0, zBoosted: false };
+  });
+  // mantém o hint por cima de tudo
+  sticky.appendChild(sticky.querySelector('.stack-hint'));
+
+  // Hover/toque destaca só a própria foto — sutil, sem mexer nas outras.
+  const hoverCapable = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  cards.forEach((c) => {
+    if (hoverCapable){
+      c.el.addEventListener('pointerenter', () => { c.hovering = true; });
+      c.el.addEventListener('pointerleave', () => { c.hovering = false; });
+    } else {
+      c.el.addEventListener('click', (e) => {
+        if (e.target.closest('.photo-egg')) return;
+        c.hovering = !c.hovering;
+      });
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (!hoverCapable && !e.target.closest('.stack-card')){
+      cards.forEach(c => { c.hovering = false; });
+    }
+  });
+
+  return function update(){
+    const rect = wrapper.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    let progress = total > 0 ? (-rect.top) / total : 0;
+    progress = Math.min(1, Math.max(0, progress));
+    // a 1ª foto já entra pronta (sem animação); as demais (N-1) se
+    // distribuem ao longo do scroll — revealFloat vai de 1 até N.
+    const revealFloat = 1 + progress * (N - 1);
+    // distância de onde a próxima foto "nasce", abaixo da tela —
+    // escalada com a altura da viewport pra garantir que ela realmente
+    // comece fora da área visível, não apenas mais baixo na pilha.
+    const entryDistance = window.innerHeight * 0.55 + 60;
+
+    cards.forEach((c, i) => {
+      const local = Math.max(0, Math.min(1, revealFloat - i));
+      const eased = prefersReducedMotion ? local : 1 - Math.pow(1 - local, 3);
+
+      // entrada: a foto vem de baixo da viewport (fora da tela) até
+      // assentar no seu lugar na pilha, um pouco além da anterior.
+      const entryOffset = prefersReducedMotion ? 0 : (1 - eased) * entryDistance;
+      let ty = c.restY + entryOffset;
+      let scale = 0.86 + eased * 0.14;
+      let opacity = Math.min(1, eased * 2.2);
+      let rotate = c.baseTilt * eased;
+      let z = 100 + i; // fotos mais recentes ficam por cima das anteriores
+
+      // destaque de hover — só afeta a própria foto: eleva de leve,
+      // cresce muito pouco (~1.02–1.04x), endireita um pouco a rotação
+      // e intensifica a sombra (via CSS); nenhuma outra foto se move.
+      // suavizado a ~0.15/frame (chega a ~95% em ~300-320ms).
+      const hoverTarget = c.hovering ? 1 : 0;
+      c.hoverProgress = prefersReducedMotion
+        ? hoverTarget
+        : c.hoverProgress + (hoverTarget - c.hoverProgress) * 0.15;
+      if (Math.abs(hoverTarget - c.hoverProgress) < 0.001) c.hoverProgress = hoverTarget;
+
+      if (c.hoverProgress > 0.001){
+        ty -= c.hoverProgress * 9;
+        scale *= 1 + c.hoverProgress * 0.03;
+        rotate *= 1 - c.hoverProgress * 0.4; // endireita um pouco ao ser "levantada"
+      }
+
+      // o z-index só troca de camada depois que a foto já subiu/cresceu
+      // o bastante (histerese: sobe aos 0.5, só desce aos 0.3) — a troca
+      // fica escondida dentro do próprio movimento, sem salto visual.
+      // Ao tirar o mouse, ela volta quase à posição original ANTES de
+      // perder essa camada extra, em vez de trocar na hora.
+      if (!c.zBoosted && c.hoverProgress > 0.5) c.zBoosted = true;
+      else if (c.zBoosted && c.hoverProgress < 0.3) c.zBoosted = false;
+      if (c.zBoosted) z += 50;
+
+      c.el.classList.toggle('is-hovered', c.hoverProgress > 0.05);
+
+      c.el.style.transform = `translate(-50%,-50%) translateY(${ty}px) scale(${scale}) rotate(${rotate}deg)`;
+      c.el.style.opacity = opacity;
+      c.el.style.zIndex = z;
+      c.el.style.pointerEvents = (opacity > 0.05) ? 'auto' : 'none';
+    });
+  };
+}
+
+/* ============================================================
+   PARALLAX SUTIL ENTRE SEÇÕES
+   ============================================================ */
+function initSectionParallax(){
+  if (prefersReducedMotion) return () => {};
+  const targets = Array.from(document.querySelectorAll('.section-inner, .hero-inner'));
+  return function update(){
+    const vh = window.innerHeight;
+    targets.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      let progress = (center - vh / 2) / (vh / 2 + rect.height / 2);
+      progress = Math.max(-1, Math.min(1, progress));
+      const translate = progress * 26;
+      const scale = 1 - Math.abs(progress) * 0.025;
+      el.style.transform = `translateY(${translate}px) scale(${scale})`;
+    });
+  };
+}
+
+/* ============================================================
+   FUNDO 3D AMBIENTE (Three.js) — partículas + corações sutis
+   ============================================================ */
+function supportsWebGL(){
+  try{
+    const c = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+  }catch(e){ return false; }
+}
+
+function initBgScene(){
+  const canvas = document.getElementById('bg-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 100);
+  camera.position.z = 20;
+
+  // textura circular suave (gerada via canvas, sem precisar de arquivo externo)
+  function makeDotTexture(){
+    const s = 64;
+    const c = document.createElement('canvas');
+    c.width = c.height = s;
+    const ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.4, 'rgba(255,255,255,.7)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,s,s);
+    return new THREE.CanvasTexture(c);
+  }
+  const dotTexture = makeDotTexture();
+
+  const isSmall = window.innerWidth < 760;
+  const COUNT = isSmall ? 140 : 260;
+  const positions = new Float32Array(COUNT * 3);
+  const colors = new Float32Array(COUNT * 3);
+  const speeds = new Float32Array(COUNT);
+  const goldColor = new THREE.Color(0xC9A24B);
+  const roseColor = new THREE.Color(0xE8A8B8);
+
+  const spreadX = 16, spreadY = 18, spreadZ = 18;
+  // Z é gerado simétrico em torno do próprio pivô do grupo (0), e não
+  // "só pra um lado" — assim, ao girar (points.rotation.y, ligado ao
+  // scroll), a nuvem gira em torno do seu próprio centro de massa e
+  // nunca varre pra um lado só da tela, não importa o ângulo.
+  const halfSpreadZ = spreadZ / 2;
+  for (let i=0;i<COUNT;i++){
+    positions[i*3+0] = (Math.random()*2-1) * spreadX;
+    positions[i*3+1] = (Math.random()*2-1) * spreadY;
+    positions[i*3+2] = (Math.random()*2-1) * halfSpreadZ;
+    const mix = Math.random();
+    const col = goldColor.clone().lerp(roseColor, mix < .35 ? mix*1.6 : 0);
+    colors[i*3+0] = col.r; colors[i*3+1] = col.g; colors[i*3+2] = col.b;
+    speeds[i] = 0.35 + Math.random()*0.55;
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  const mat = new THREE.PointsMaterial({
+    size: isSmall ? 0.34 : 0.4,
+    map: dotTexture,
+    transparent: true,
+    opacity: 0.55,
+    vertexColors: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true
+  });
+  const points = new THREE.Points(geo, mat);
+  // desloca o grupo já rotacionado de volta pra mesma faixa de distância
+  // da câmera de antes (fica entre 20 e 38 unidades de distância, como
+  // era originalmente) — só a posição do pivô muda, não a rotação em si.
+  points.position.z = -halfSpreadZ;
+  scene.add(points);
+
+
+  // alguns coraçõezinhos 3D discretos flutuando mais ao fundo
+  function makeHeartGeometry(){
+    const shape = new THREE.Shape();
+    shape.moveTo(0, 0.5);
+    shape.bezierCurveTo(0, 0.5, -0.5, 0, -1, 0);
+    shape.bezierCurveTo(-1.8, 0, -1.8, 0.9, -1.8, 0.9);
+    shape.bezierCurveTo(-1.8, 1.4, -1.2, 2, 0, 2.5);
+    shape.bezierCurveTo(1.2, 2, 1.8, 1.4, 1.8, 0.9);
+    shape.bezierCurveTo(1.8, 0.9, 1.8, 0, 1, 0);
+    shape.bezierCurveTo(0.5, 0, 0, 0.5, 0, 0.5);
+    const geometry = new THREE.ExtrudeGeometry(shape, { depth:0.3, bevelEnabled:true, bevelThickness:0.08, bevelSize:0.06, bevelSegments:2 });
+    geometry.center();
+    geometry.scale(0.22, 0.22, 0.22);
+    return geometry;
+  }
+  const heartGeo = makeHeartGeometry();
+  const heartMat = new THREE.MeshBasicMaterial({ color:0xC9A24B, transparent:true, opacity:0.22 });
+  const HEART_COUNT = isSmall ? 4 : 7;
+  const hearts = [];
+  for (let i=0;i<HEART_COUNT;i++){
+    const m = new THREE.Mesh(heartGeo, heartMat);
+    m.position.set((Math.random()*2-1)*11, (Math.random()*2-1)*9, -4 - Math.random()*12);
+    m.rotation.z = Math.random()*Math.PI;
+    m.userData.spin = (Math.random()*2-1) * 0.08;
+    m.userData.phase = Math.random()*Math.PI*2;
+    m.userData.baseY = m.position.y;
+    scene.add(m);
+    hearts.push(m);
+  }
+
+  function onResize(){
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', onResize);
+
+  let lastT = 0;
+  function render(scrollY, timeMs){
+    const t = timeMs * 0.001;
+    const dt = lastT ? Math.min(t - lastT, 0.05) : 0;
+    lastT = t;
+
+    camera.position.x = Math.sin(scrollY * 0.0006) * 1.1;
+    camera.position.y = -scrollY * 0.0012;
+    camera.lookAt(camera.position.x, camera.position.y, -5);
+
+    const cameraY = camera.position.y;
+    const halfWindowY = 18;
+
+    const pos = geo.attributes.position;
+    for (let i=0;i<COUNT;i++){
+      let y = pos.getY(i) + speeds[i]*dt*0.7;
+      let dy = y - cameraY;
+      while (dy > halfWindowY) {
+        dy -= 2 * halfWindowY;
+      }
+      while (dy < -halfWindowY) {
+        dy += 2 * halfWindowY;
+      }
+      pos.setY(i, cameraY + dy);
+    }
+    pos.needsUpdate = true;
+
+    points.rotation.y = scrollY * 0.00035;
+    points.rotation.x = Math.sin(t*0.05) * 0.03;
+
+    const halfHeartWindowY = 16;
+    hearts.forEach(h => {
+      h.rotation.z += h.userData.spin * dt;
+      let dy = h.userData.baseY - cameraY;
+      while (dy > halfHeartWindowY) {
+        dy -= 2 * halfHeartWindowY;
+      }
+      while (dy < -halfHeartWindowY) {
+        dy += 2 * halfHeartWindowY;
+      }
+      h.userData.baseY = cameraY + dy;
+      h.position.y = h.userData.baseY + Math.sin(t*0.4 + h.userData.phase) * 0.6;
+    });
+
+    renderer.render(scene, camera);
+  }
+
+  return { render };
+}
+
+/* ============================================================
+   LOOP PRINCIPAL — combina parallax, pilha de fotos e fundo 3D
+   ============================================================ */
+let currentScrollY = window.scrollY;
+window.addEventListener('scroll', () => { currentScrollY = window.scrollY; }, { passive:true });
+
+const galleryUpdate = initGalleryStack();
+const parallaxUpdate = initSectionParallax();
+const bgScene = (!prefersReducedMotion && typeof THREE !== 'undefined' && supportsWebGL())
+  ? (() => { try { return initBgScene(); } catch(e){ console.warn('Fundo 3D indisponível:', e); return null; } })()
+  : null;
+
+let pageVisible = true;
+document.addEventListener('visibilitychange', () => { pageVisible = !document.hidden; });
+
+function frame(timeMs){
+  parallaxUpdate();
+  galleryUpdate();
+  if (bgScene && pageVisible) bgScene.render(currentScrollY, timeMs);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
